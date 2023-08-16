@@ -1,0 +1,35 @@
+@startuml
+
+class UserResource {
+    +getAll(): User[]
+    +getById(id: int) User
+    +add(user: User)
+}
+
+interface UserService {
+    +addUser(user: User)
+    +getAllUsers(): User[]
+    +getUserById(id: int): User
+}
+
+namespace main {
+    class UserServiceDefault {
+         +addUser(user: User)
+         +getAllUsers(): User[]
+         +getUserById(id: int): User
+    }
+}
+
+namespace test {
+    class UserServiceMock {
+         +addUser(user: User)
+         +getAllUsers(): User[]
+         +getUserById(id: int): User
+    }
+}
+
+UserResource *-- UserService
+UserServiceDefault ..> UserService
+UserServiceMock ..> UserService
+
+@enduml
