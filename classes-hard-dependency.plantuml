@@ -1,8 +1,4 @@
 @startuml
-class User {
-    -name
-    -email
-}
 
 class UserResource {
     +getAll(): User[]
@@ -10,11 +6,6 @@ class UserResource {
     +add(user: User)
 }
 
-interface UserService {
-    +addUser(user: User)
-    +getAllUsers(): User[]
-    +getUserById(id: int): User
-}
 
 class UserServiceDefault {
      +addUser(user: User)
@@ -22,7 +13,17 @@ class UserServiceDefault {
      +getUserById(id: int): User
 }
 
-UserResource *-- UserService
-UserServiceDefault ..> UserService
+class UserMysqlDao {
+    +save(user: User)
+    +findAll(): User[]
+    +findOne(id: int): User
+}
+
+allowmixing
+database userdb
+
+UserResource *-- UserServiceDefault
+UserServiceDefault *-- UserMysqlDao
+UserMysqlDao <--> userdb
 
 @enduml

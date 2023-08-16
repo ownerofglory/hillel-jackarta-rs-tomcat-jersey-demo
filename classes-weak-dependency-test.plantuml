@@ -1,4 +1,6 @@
 @startuml
+left to right direction
+
 
 class UserResource {
     +getAll(): User[]
@@ -18,6 +20,18 @@ namespace main {
          +getAllUsers(): User[]
          +getUserById(id: int): User
     }
+
+    interface UserDao {
+        +save(user: User)
+        +findAll(): User[]
+        +findOne(id: int): User
+    }
+
+    class UserMysqlDao {
+        +save(user: User)
+        +findAll(): User[]
+        +findOne(id: int): User
+    }
 }
 
 namespace test {
@@ -28,8 +42,14 @@ namespace test {
     }
 }
 
+allowmixing
+database userdb
+
 UserResource *-- UserService
 UserServiceDefault ..> UserService
 UserServiceMock ..> UserService
+UserServiceDefault *-- UserDao
+UserMysqlDao ..>UserDao
+UserMysqlDao <--> userdb
 
 @enduml

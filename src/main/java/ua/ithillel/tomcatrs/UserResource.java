@@ -42,7 +42,7 @@ public class UserResource {
     @Path("/{id}")
     @Produces(value = MediaType.APPLICATION_JSON)
     @Consumes(value = MediaType.APPLICATION_JSON)
-    public User add(@PathParam("id") Integer id, User newUser) {
+    public User update(@PathParam("id") Integer id, User newUser) {
         return userService.updateUser(id, newUser);
     }
 
