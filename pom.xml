@@ -18,14 +18,54 @@
                 <version>3.8.1</version>
                 <inherited>true</inherited>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.4.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven3-plugin</artifactId>
+                <version>1.10.5</version>
+                <configuration>
+                    <container>
+                        <containerId>tomcat10x</containerId>
+                        <type>remote</type>
+                    </container>
+                    <configuration>
+                        <type>runtime</type>
+                        <properties>
+                            <cargo.hostname>${tomcat.host}</cargo.hostname>
+                            <cargo.protocol>https</cargo.protocol>
+                            <cargo.port>443</cargo.port>
+                            <cargo.servlet.port>443</cargo.servlet.port>
+                            <cargo.remote.username>${tomcat.user}</cargo.remote.username>
+                            <cargo.remote.password>${tomcat.password}</cargo.remote.password>
+                            <cargo.tomcat.manager.url>${tomcat.managerUrl}</cargo.tomcat.manager.url>
+                        </properties>
+                    </configuration>
+
+                    <artifactInstaller>
+                        <groupId>org.ow2.jonas.assemblies.profiles</groupId>
+                        <artifactId>jonas-full</artifactId>
+                        <version>5.2.1</version>
+                        <classifier>bin</classifier>
+                    </artifactInstaller>
+                    <deployables>
+                        <deployable>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>hillel-rest</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+                </configuration>
             </plugin>
         </plugins>
     </build>
